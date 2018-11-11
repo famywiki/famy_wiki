@@ -3,8 +3,6 @@ import datetime as d
 from flask import Flask, request, jsonify
 import mongo
 import math
-# import multi
-#import logger
 import flask
 import flask_pymongo as fp
 import os
@@ -30,14 +28,15 @@ def accueil():
         res = mongo.db.articles.find({"motcle":req})
         err = str("Pas de résultat pour '" + str(request.form['motcle']) + "'.")
         item_count = mongo.db.articles.count_documents({"motcle": req})
-
-       #
-        return render_template("articles_lire.html", data=res)
-        #else:
-         #   print("yolo")
-          #  print(err)
-           # flag = "ko"
-            #return render_template('accueil.html', data=err, res_flag=flag)
+        print(item_count)
+        if item_count > 0:
+            flag = "ok"
+            return render_template("articles_lire.html", data=res)
+        else:
+            print("yolo")
+            print(err)
+            flag = "ko"
+            return render_template('accueil.html', data=err, res_flag=flag)
     else:
         return render_template('accueil.html')
 
